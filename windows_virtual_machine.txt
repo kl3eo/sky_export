@@ -14,7 +14,7 @@ Also replace "Intel(R) Ethernet Connection I219-LM" in command #3 with your host
 
 You can learn what it is from the graphics VirtualBox Manager (see picture https://room-house.com/img/man1.png). 
 
-Copy the adapter's name from there and paste it in the quotes after the --bridgeadapter1 flag where now it's "Intel(R) Ethernet Connection I219-LM".
+Copy the adapter's name and paste it in the quotes after the --bridgeadapter1 flag where now it's "Intel(R) Ethernet Connection I219-LM".
 
 
 1. vboxmanage createvm --name FREE --ostype RedHat_64 --register --basefolder "C:\Users\Bob\VMs"
