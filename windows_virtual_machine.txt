@@ -1,0 +1,37 @@
+Running node on Windows
+=======================
+
+If you prefer to run on Windows, you need to create a VM with Linux. 
+
+Install VirtualBox from the Oracle's site https://virtualbox.org - DO NOT USE 7.* version! Download and install any latest 6.1.* version, like 6.1.46 is tested to work fine.
+
+NB: you may need to disable the native Windows virtualization named Hyper-V to be able to use the VirtualBox software. Search the Internet on how to disable Hyper-V on Windows.
+
+Now create the VM. Here is our script for it - replace "Bob" with your Windows user's name, then please run each of nine commands one by one, #1..#9 to make sure every one runs successfully. If you encountered an error, remove the "FREE" virtual machine in the graphics VirtualBox Manager, then start from the scratch. Also replace "Intel(R) Ethernet Connection I219-LM" in command #3 with your host's network adapter's name. You can learn what it is from the graphics VirtualBox Manager (see picture https://room-house.com/img/man1.png). Copy the adapter's name from there and paste it in the quotes after the --bridgeadapter1 flag where now it's "Intel(R) Ethernet Connection I219-LM".
+
+
+1. vboxmanage createvm --name FREE --ostype RedHat_64 --register --basefolder "C:\Users\Bob\VMs"
+2. cd "C:\Users\Bob\VMs\FREE"
+3. vboxmanage modifyvm FREE --memory 4096 --cpus 2 --audio none --firmware efi --nic1 bridged --nictype1 virtio --bridgeadapter1 "Intel(R) Ethernet Connection I219-LM"
+4. vboxmanage createmedium --filename 2G.vdi --size 2048
+5. vboxmanage storagectl FREE --name SATA --add sata
+
+Now copy "loop_free.vdi" file to the same folder where you're running the commands (it's "C:\Users\Bob\VMs\FREE"), and proceed with command #6.
+
+
+6. vboxmanage internalcommands sethduuid loop_free.vdi
+7. vboxmanage storageattach FREE --storagectl SATA --medium loop_free.vdi --port 0 --type hdd
+8. vboxmanage storageattach FREE --storagectl SATA --medium 2G.vdi --port 1 --type hdd
+9. vboxmanage modifyvm FREE --boot1 disk --boot2 none --boot3 none --boot4 none
+
+This process requires use of the command line. If you are not familiar with it, it is recommended that you get used to it first.
+
+After you've successfully created the VM, you may change it in the graphics VirtualBox Manager, for example, increase the amount of RAM from 4096M to 5120M, etc.
+
+Now run the VM; start it from the graphics VirtualBox Manager clicking on "Start" button in the menu.
+
+Wait till the blue screen with a form appears; enter "vg_11" as user name and "aqua" as the password in fields 1 and 2. In field 3, type in ANY "free" (= not used yet) IP address from the subnet of your router (e.g. 192.168.0.200). In field 4, enter the IP of the router (e.g., 192.168.0.1). Wait till the xTER has finished unpacking. Login to the VM Centos 7 Linux as "nobody" with the password "parol765". If you need root privileges, use the same password for "su -" command.
+
+Install git with "yum install git" command as root. Now change to "nobody" account and "git clone https://github.com/kl3eo/sky_export".
+
+After that, you're ready to start the SkyPirl node on your VM.
