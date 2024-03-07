@@ -7,7 +7,14 @@ Install VirtualBox from the Oracle's site https://virtualbox.org - DO NOT USE 7.
 
 NB: you may need to disable the native Windows virtualization named Hyper-V to be able to use the VirtualBox software. Search the Internet on how to disable Hyper-V on Windows.
 
-Now create the VM. Here is our script for it - replace "Bob" with your Windows user's name, then please run each of nine commands one by one, #1..#9 to make sure every one runs successfully. If you encountered an error, remove the "FREE" virtual machine in the graphics VirtualBox Manager, then start from the scratch. Also replace "Intel(R) Ethernet Connection I219-LM" in command #3 with your host's network adapter's name. You can learn what it is from the graphics VirtualBox Manager (see picture https://room-house.com/img/man1.png). Copy the adapter's name from there and paste it in the quotes after the --bridgeadapter1 flag where now it's "Intel(R) Ethernet Connection I219-LM".
+Now create the VM. Here is our script for it - replace "Bob" with your Windows user's name, then please run each of nine commands one by one, #1..#9 to make sure every one runs successfully. 
+If you encountered an error, remove the "FREE" virtual machine in the graphics VirtualBox Manager, then start from the scratch. 
+
+Also replace "Intel(R) Ethernet Connection I219-LM" in command #3 with your host's network adapter's name. 
+
+You can learn what it is from the graphics VirtualBox Manager (see picture https://room-house.com/img/man1.png). 
+
+Copy the adapter's name from there and paste it in the quotes after the --bridgeadapter1 flag where now it's "Intel(R) Ethernet Connection I219-LM".
 
 
 1. vboxmanage createvm --name FREE --ostype RedHat_64 --register --basefolder "C:\Users\Bob\VMs"
