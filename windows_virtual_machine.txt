@@ -23,7 +23,7 @@ Copy the adapter's name and paste it in the quotes after the --bridgeadapter1 fl
 4. vboxmanage createmedium --filename 20G.vdi --size 20480
 5. vboxmanage storagectl FREE --name SATA --add sata
 
-Now copy "loop_free.vdi" file to the same folder where you're running the commands (it's "C:\Users\Bob\VMs\FREE"), and proceed with command #6.
+Now download "loop_free.vdi" file from THIS github to the same folder where you're now (it's "C:\Users\Bob\VMs\FREE"), and proceed with command #6.
 
 
 6. vboxmanage internalcommands sethduuid loop_free.vdi
@@ -49,4 +49,4 @@ If you need root privileges, use the same password for "su -" command.
 
 Install git with "yum install git" command as root. Now change to "nobody" account and "git clone https://github.com/kl3eo/sky_export".
 
-After that, you're ready to start the SkyPirl node on your VM.
+After that, you're ready to start the SkyPirl node on your VM. Type "cd sky_export" then "./start_low.sh".
