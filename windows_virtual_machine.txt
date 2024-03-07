@@ -37,7 +37,15 @@ After you've successfully created the VM, you may change it in the graphics Virt
 
 Now run the VM; start it from the graphics VirtualBox Manager clicking on "Start" button in the menu.
 
-Wait till the blue screen with a form appears; enter "vg_11" as user name and "aqua" as the password in fields 1 and 2. In field 3, type in ANY "free" (= not used yet) IP address from the subnet of your router (e.g. 192.168.0.200). In field 4, enter the IP of the router (e.g., 192.168.0.1). Wait till the xTER has finished unpacking. Login to the VM Centos 7 Linux as "nobody" with the password "parol765". If you need root privileges, use the same password for "su -" command.
+Wait till the blue screen with a form appears; enter "vg_11" as user name and "aqua" as the password in fields 1 and 2. 
+
+In field 3, type in ANY "free" (= not used yet) IP address from the subnet of your router (e.g. 192.168.0.200). 
+
+In field 4, enter the IP of the router (e.g., 192.168.0.1). Hit "enter" to leave the last two fields empty. 
+
+Wait till the xTER has finished unpacking. Login to the VM Centos 7 Linux as "nobody" with the password "parol765". 
+
+If you need root privileges, use the same password for "su -" command.
 
 Install git with "yum install git" command as root. Now change to "nobody" account and "git clone https://github.com/kl3eo/sky_export".
 
