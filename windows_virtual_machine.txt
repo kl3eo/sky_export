@@ -23,7 +23,9 @@ Copy the adapter's name and paste it in the quotes after the --bridgeadapter1 fl
 4. vboxmanage createmedium --filename 20G.vdi --size 20480
 5. vboxmanage storagectl FREE --name SATA --add sata
 
-Now download "loop_free.vdi" file from THIS github to the same folder where you're now (it's "C:\Users\Bob\VMs\FREE"), and proceed with command #6.
+Now download "loop_free.vdi" file from github: https://github.com/kl3eo/room-house/tree/main/free and place to the same folder where you're now (it's "C:\Users\Bob\VMs\FREE").
+
+Proceed with command #6.
 
 
 6. vboxmanage internalcommands sethduuid loop_free.vdi
