@@ -16,17 +16,13 @@ You can learn what it is from the graphics VirtualBox Manager (see picture https
 
 Copy the adapter's name and paste it in the quotes after the --bridgeadapter1 flag where now it's "Intel(R) Ethernet Connection I219-LM".
 
-
 1. vboxmanage createvm --name FREE --ostype RedHat_64 --register --basefolder "C:\Users\Bob\VMs"
 2. cd "C:\Users\Bob\VMs\FREE"
 3. vboxmanage modifyvm FREE --memory 4096 --cpus 2 --audio none --firmware efi --nic1 bridged --nictype1 virtio --bridgeadapter1 "Intel(R) Ethernet Connection I219-LM"
 4. vboxmanage createmedium --filename 20G.vdi --size 20480
 5. vboxmanage storagectl FREE --name SATA --add sata
 
-Now download "loop_free.vdi" file from github: https://github.com/kl3eo/room-house/tree/main/free and place to the same folder where you're now (it's "C:\Users\Bob\VMs\FREE").
-
-Proceed with command #6.
-
+Now download "loop_free.vdi" file from https://github.com/kl3eo/room-house/tree/main/free and place to the same folder where you're now (it's "C:\Users\Bob\VMs\FREE").
 
 6. vboxmanage internalcommands sethduuid loop_free.vdi
 7. vboxmanage storageattach FREE --storagectl SATA --medium loop_free.vdi --port 0 --type hdd
