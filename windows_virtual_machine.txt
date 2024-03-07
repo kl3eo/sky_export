@@ -20,7 +20,7 @@ Copy the adapter's name from there and paste it in the quotes after the --bridge
 1. vboxmanage createvm --name FREE --ostype RedHat_64 --register --basefolder "C:\Users\Bob\VMs"
 2. cd "C:\Users\Bob\VMs\FREE"
 3. vboxmanage modifyvm FREE --memory 4096 --cpus 2 --audio none --firmware efi --nic1 bridged --nictype1 virtio --bridgeadapter1 "Intel(R) Ethernet Connection I219-LM"
-4. vboxmanage createmedium --filename 2G.vdi --size 2048
+4. vboxmanage createmedium --filename 20G.vdi --size 20480
 5. vboxmanage storagectl FREE --name SATA --add sata
 
 Now copy "loop_free.vdi" file to the same folder where you're running the commands (it's "C:\Users\Bob\VMs\FREE"), and proceed with command #6.
@@ -28,7 +28,7 @@ Now copy "loop_free.vdi" file to the same folder where you're running the comman
 
 6. vboxmanage internalcommands sethduuid loop_free.vdi
 7. vboxmanage storageattach FREE --storagectl SATA --medium loop_free.vdi --port 0 --type hdd
-8. vboxmanage storageattach FREE --storagectl SATA --medium 2G.vdi --port 1 --type hdd
+8. vboxmanage storageattach FREE --storagectl SATA --medium 20G.vdi --port 1 --type hdd
 9. vboxmanage modifyvm FREE --boot1 disk --boot2 none --boot3 none --boot4 none
 
 This process requires use of the command line. If you are not familiar with it, it is recommended that you get used to it first.
