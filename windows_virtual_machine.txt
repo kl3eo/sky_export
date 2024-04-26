@@ -48,3 +48,47 @@ If you need root privileges, use the same password for "su -" command.
 Install git with "yum install git" command as root. Now change to "nobody" account and "git clone https://github.com/kl3eo/sky_export".
 
 After that, you're ready to start the SkyPirl node on your VM. Type "cd sky_export" then "./start_low.sh".
+
+
+===
+UPDATE: 26.04.24 alternative reading with more comments:
+
+Now we'll create and then modify a VM using "vboxmanage" command. Because we don't need graphics/audio/anything else than a node, it's a minimum Linux in xTER container. Its name is "FREE" - it means you will have full access with root privileges on your Linux, this is what you will need to add/install more software after the VM is running.
+I will comment each of the 9 commands one by one. Every command does something, it must run without errors. If you have an error, go to Graphich Manager and delete the "FREE" VM, then start creating from command #1.
+vboxmanage createvm --name FREE --ostype RedHat_64 --register --basefolder "C:\Users\Bob\VMs"
+
+kl3eo — Today at 6:02 AM
+Replace here "Bob" with your Windows name, copy/paste and run it from Command Shell. After it runs, you should see a new VM with name "FREE" appear in the Graphichs Manager. You should also see a new folder "VMs" appear in your home catalog, and inside it - a folder with name "FREE". This is a catalog where all files related to this VM will be, if you delete the VM, the Manager will ask you - do you want to delete files? if you say "yes", then this folder will be deleted. And as you SHOULD delete all files when you delete the VM, answer "yes". The stale files are bad when you re-create the VM from scratch. 
+
+kl3eo — Today at 6:14 AM
+cd "C:\Users\Bob\VMs\FREE" - simply go to this new catalog, replace here "Bob" with your actual name
+The next command will add some important features to your VM. Replace '...' placeholder in it with the actual name of of your network interface. 
+vboxmanage modifyvm FREE --memory 5120 --cpus 2 --audio none --firmware efi --nic1 bridged --nictype1 virtio --bridgeadapter1 "..."
+ 
+kl3eo — Today at 6:27 AM
+You may see the name of the network interface in Graphics Manager. In my case, it's "enp0s31". In your case, it may be something like "Intel(R) Ethernet Connection I219-LM" - copy it from Graphics Manager and paste in the command #3 inside the quotes where there are "..." 
+Image
+
+kl3eo — Today at 6:44 AM
+Above in #3, we give 5G (5120M) of RAM and 2 CPUs to our virtual machine. About RAM, it can be less or more depending on how much of it your Windows host has. 
+But having at least 4G is really good, less than that is not recommended. The reason is, xTER is fully in RAM, including its file system. When the VM is running, ~2.5G of RAM is taken by the file system. In case you're not in xTER, the node itself doesn't require much of RAM, it may even work with 2G of RAM or less. 
+
+kl3eo — Today at 7:18 AM
+The next two commands (#4 and 5) will create a 20G file system with SATA type of controller. The file system is "rubberband" - it will initially be small, but it can grow to 20G. You may change the limit later if you need.
+vboxmanage createmedium --filename 20G.vdi --size 20480
+vboxmanage storagectl FREE --name SATA --add sata
+After the command #4, you see the new file "20G.vdi" appear in the FREE folder, and it's quite small yet. It's supposed to hold the node block chain database - so, in case your Windows has a lot of free storage, don't be too greedy, give 60G to your virtual machine. Then you may run 2-3 node concurrently, with enough space for database of each one. The size of the database is currently 2.2G, but while the node is running, it collects a lot of garbage. The node restart removes all garbage automatically, but if you forget to restart the node, then the garbage may grow and take the whole file system, that's why it's better to reserve some additional space now. 
+
+kl3eo — Today at 9:55 AM
+The next command #6 will use a tiny 3M file you download from my github. It's "loop_free.vdi" - and it's the only downloaded  file that your Windows will store directly. That's why you've all my attention here. First, it's a VB format file system. You cannot run it without VB. Inside it (you can open it and see) there's a bootloader binary file "bootx64.efi" and some text files with xTER settings. Nothing really interesting. Anything that runs inside VB cannot reach up the host system. This is the main principle of the host-guest interaction, and you've to trust the Oracle band, anything runs inside VB is not potentially dangerous for the Windows host. All this said, we can proceed to commands #6 and 7. 
+Now download "loop_free.vdi" file from https://github.com/kl3eo/room-house/tree/main/free and place to the same folder where you're now (it's "C:\Users\Bob\VMs\FREE").
+
+vboxmanage internalcommands sethduuid loop_free.vdi
+vboxmanage storageattach FREE --storagectl SATA --medium loop_free.vdi --port 0 --type hdd
+
+kl3eo — Today at 10:05 AM
+Now the last two commands will attach the 20G (or 60G?) file you've created with command #4 and set the "loop_free.vdi" as the disk to boot from: 
+vboxmanage storageattach FREE --storagectl SATA --medium 20G.vdi --port 1 --type hdd
+vboxmanage modifyvm FREE --boot1 disk --boot2 none --boot3 none --boot4 none
+
+This whole process requires use of the command line. If you are not familiar with it, it is recommended that you get used to it first. 
