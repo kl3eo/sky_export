@@ -23,7 +23,7 @@ Script "./p" shows a list of running nodes.
 
 Script "./d" prints the size of current database.
 
-Script "./k" kills all running nodes.
+Script "./k" stops all running nodes.
 
 Script "./s" saves a copy of the database from the current folder into the upper level folder "../db_res/".
 
