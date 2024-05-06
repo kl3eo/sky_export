@@ -4,7 +4,7 @@ Run './start_low.sh' as a non-root user to start a node in this folder.
 
 Change the script 'start_low.sh' and add a custom node name: insert " --name your_custom_node_name" before "> /dev/null 2>&1 &".
 
-NB: if you're copying existing folder "export1" as "exportN" - DO NOT FORGET: remove the file "./exportN/rhc_low_sp4/chains/pirl/network/secret_ed25519" - this file then will be created automatically on the node next start. If you have the same file "secret_ed25519" for many nodes, only one of them will sync, all the others won't, because this file should be unique for each node.
+NB: if you're copying existing folder "sky_export" as "exportN" - DO NOT FORGET: remove the file "./exportN/rhc_low_sp4/chains/pirl/network/secret_ed25519" - this file then will be created automatically on the node's next start. If you have the same file "secret_ed25519" for many nodes, only one will sync, all the others won't, because this file should be unique for each node.
 
 NB: Also DO NOT FORGET: edit every "start_low.sh" in every new folder and change the name of the node (see above how to), also add "+1" to every port number "9944" and "9933", in folder "export1" ports they are 9944 and 9933, in folder "export2" they are 9945 and 9934, and so on, until in folder "export8" they are 9940 and 9951.
 
