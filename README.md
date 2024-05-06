@@ -14,8 +14,10 @@ NB: sometimes your node(s) will lose sync. You can see it "dimmed" in the teleme
 
 Check the telemetry to see your nodes show up there -  https://telemetry.polkadot.io/#list/0xfacdcefab28407f5b0e56899e1eefe27a5a7fda2a1c25f4e9a5a181eb108ee9e - NB: this telemetry board would only show SOME nodes SOME times, not every node ALWAYS. So, if you don't see your node there, just come try later.
 
-=======
-SCRIPTS
+NB: when your node is not visible in the telemetry, you can check its current blockHeight with command: 
+curl --connect-timeout 1 --max-time 1 --silent -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "system_syncState"}' http://localhost:9933/ | jq -r '.result' | jq -r '.currentBlock'
+
+# scripts
 
 Script "./p" shows a list of running nodes.
 
@@ -31,4 +33,4 @@ Script "./sta.sh" starts all nodes in folders ~/export1 ... ~/export8.
 
 Script "./check_cb.pl" prints current blockHeight for each of the running nodes.
 
-Script "./crontab" stops all nodes and re-starts them next minute once every hour. Good for auto-clean of the database. Run command "crontab -e" then copy/paste text from this file, change "nobody" to your user's name, and minutes 52/53 to whaever is good for you.
+Script "./crontab" stops all nodes and re-starts them next minute once every hour. Good for auto-clean of the database. Run command "crontab -e" then copy/paste text from this file, change "nobody" to your user's name, and minutes 52/53 to whichever is good for you.
