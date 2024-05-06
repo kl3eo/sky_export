@@ -39,7 +39,7 @@ Wait till the blue screen with a form appears; enter "vg_11" as user name and "a
 
 In field 3, type in ANY "free" (= not used yet) IP address from the subnet of your router (e.g. 192.168.0.200). 
 
-In field 4, enter the IP of the router (e.g., 192.168.0.1). Hit "enter" to leave the last two fields empty. 
+In field 4, enter the IP of the router (e.g., 192.168.0.1). Hit "enter" to leave the last field empty. 
 
 Wait till the xTER has finished unpacking. Login to the VM Centos 7 Linux as "nobody" with the password "parol765". 
 
@@ -49,6 +49,10 @@ Install git with "yum install git" command as root. Now change to "nobody" accou
 
 After that, you're ready to start the SkyPirl node on your VM. Type "cd sky_export" then "./start_low.sh".
 
+rm -rf sky_export/.git
+du sky_export
+mv sky_export export1
+cp -a export1 export2
 
 ===
 UPDATE: 26.04.24 alternative reading with more comments:
@@ -92,3 +96,25 @@ vboxmanage storageattach FREE --storagectl SATA --medium 20G.vdi --port 1 --type
 vboxmanage modifyvm FREE --boot1 disk --boot2 none --boot3 none --boot4 none
 
 This whole process requires use of the command line. If you are not familiar with it, it is recommended that you get used to it first. 
+
+All right, the node is synced. (in ~6 hours). Now, its database is "dirty". If you check its size, it's huge (~15G or more) and full of garbage. Check the size of the "dirty" database with command:
+./d
+To clean the database, you need re-start the node. This is done in two steps, first, "kill" the node with command:
+./k
+NB: it will kill ALL running nodes.
+
+Second, start the node: change to the "exportN" directory and ./start_low.sh from there.
+Wait 1-2 mins after the start, while you're waiting, keep checking the size with "./d" command.
+When you see that the size has changed to only ~2.3G, it means, the garbage has been cleaned.
+Now, check the telemetry again. You should see your node there fully synced and it's working on the height of the block chain. And its database is "clean" - now it's time to save a copy of the database. It's good thing to do at least 1 time per week: 
+
+kl3eo — Today at 4:32 PM
+./s
+NB: take care with this command "./s"! It will over-write the good database from the previous save. So, be absolutely sure you're saving "clean" database and the node from which you're saving the db is seen working on the telemetry on the block height! Only if these two conditions are fulfilled, you can save a copy of the database. 
+Normally, you should restart your nodes once in an hour. It helps to keep all nodes healthy and their databases as small as possible. This is done automatically with crontab script which you'll add a bit later.
+
+kl3eo — Today at 5:10 PM
+Why you need the saved database? Because sometimes your node will lose sync all by itself. When it happens, you see it "dimmed" in the telemetry. It's working, but not on the block height. Or, even it can happen that your node is not working, and after you start it, it works 1-2 sec and then stops. It means, the database is corrupt. If you have not saved the good and clean database, you will manually delete the bad database, and then sync from scratch! and as you know by now, it takes many hours. While if you've saved the good db, simply use the command:
+./r
+And it will restore the good db from copy to your current folder in a few minutes. Then you start the node, and it syncs up only from the height of the latest save! so you will use 99% of the work already done and not do it again - that's why you need the saved copy. And if you want to start another node, do not sync it from the block chain, - sync it from the saved local copy with the same "./r" command.
+

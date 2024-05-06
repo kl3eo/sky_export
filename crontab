@@ -1,0 +1,3 @@
+MAILTO=""
+52 * * * * /home/nobody/export1/k
+53 * * * * /home/nobody/sta.sh
